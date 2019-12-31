@@ -62,7 +62,7 @@ module.exports.run = async (client, message, args, randomcolor, prefix, discord,
                 .setTimestamp()
                 .setFooter("DiscordBot - Settings");
             await message.reply(succesEmbed);
-            guildData.set(`${message.guild.id}.admin.adminRole`, role.id);
+            guildData.set(`${message.guild.id}.admin.adminRole`, role.name);
         } else {
             let embed = new discord.RichEmbed()
                 .setAuthor("Settings - GeenPerms")
