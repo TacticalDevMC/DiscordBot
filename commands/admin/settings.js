@@ -22,6 +22,7 @@ module.exports.run = async (client, message, args, randomcolor, prefix, discord,
     }
 
     var role = message.mentions.roles.first();
+    var channel = message.guild.channels.find();
 
     if (!adminRole === "Geen") {
         let embed = new discord.RichEmbed()
@@ -63,6 +64,45 @@ module.exports.run = async (client, message, args, randomcolor, prefix, discord,
                 .setFooter("DiscordBot - Settings");
             await message.reply(succesEmbed);
             guildData.set(`${message.guild.id}.admin.adminRole`, role.name);
+        } else {
+            let embed = new discord.RichEmbed()
+                .setAuthor("Settings - GeenPerms")
+                .setColor(randomcolor)
+                .setDescription(`U hebt hier geen permissions voor!\n\nPermission: **ADMINISTRATOR**`)
+                .setTimestamp()
+                .setFooter("DiscordBot - Permissions");
+            await message.reply(embed);
+        }
+    }if (args[0] === "setlogchannel") {
+        if (message.member.hasPermission("ADMINISTRATOR")) {
+            if (args[1] === undefined) {
+                let embed = new discord.RichEmbed()
+                    .setAuthor("Settings - GeenArgs")
+                    .setColor(randomcolor)
+                    .setDescription(`Gebruik het commando als volgt: **${prefix}settings setlogchannel [newLogChannel]**`)
+                    .setTimestamp()
+                    .setFooter("DiscordBot - Settings");
+                return message.reply(embed)
+            }
+
+            if (logChannel !== "Geen") {
+                let embed = new discord.RichEmbed()
+                    .setAuthor("Settings - Log")
+                    .setColor(randomcolor)
+                    .setDescription(`Er is een log binnengekomen!\n\nLogFunctie: **Settings**\n\nSetting: **LogChannel**\n\nOude Setting: **${logChannel}**\n\nNieuwe Setting: **${args[1]}**`)
+                    .setTimestamp()
+                    .setFooter("DiscordBot - Log");
+                logChan.send(embed);
+            }
+
+            let succesEmbed = new discord.RichEmbed()
+                .setAuthor("Settings - Succes")
+                .setColor(randomcolor)
+                .setDescription(`Gelukt! U hebt succesvol de logchannel veranderd.\n\nOude Adminrole: **${logChannel}**\n\nNieuwe LogChannel: **${args[1]}**`)
+                .setTimestamp()
+                .setFooter("DiscordBot - Settings");
+            await message.reply(succesEmbed);
+            guildData.set(`${message.guild.id}.admin.logChannel`, channel.name);
         } else {
             let embed = new discord.RichEmbed()
                 .setAuthor("Settings - GeenPerms")
